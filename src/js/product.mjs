@@ -8,14 +8,15 @@ const dataSource = new ProductData("tents");
   setLocalStorage("so-cart", product);
 } OLD FUNCTION*/
 
-/*NEW FUNCTION addProductToCart */
+/* This is my personal as Alejandro Pérez
+NEW FUNCTION addProductToCart */
 function addProductToCart(product) {
-  // Get current cart (or empty array if it doesn't exist)
-  let cart = getLocalStorage("so-cart") || [];
-  // Add new product to array
-  cart.push(product);
-  //Save the entire array to localStorage
-  setLocalStorage("so-cart", cart);
+  //First I need am¿n empty array here
+  const cartContent = getLocalStorage("so-cart") || [];
+  //Later, I will add a new product
+  cartContent.push(product);
+  //Finally, I save the update array
+  setLocalStorage("so-cart", cartContent);
 }
 
 // add to cart button event handler
