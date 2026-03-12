@@ -1,3 +1,5 @@
+// src/js/ProductData.mjs
+
 function convertToJson(res) {
   if (res.ok) {
     return res.json();
@@ -10,15 +12,16 @@ export default class ProductData {
   constructor(category) {
     this.category = category;
     
-    // Detect environment automatically
-    const isProduction = window.location.hostname !== 'localhost' && 
-                         !window.location.hostname.includes('127.0.0.1');
+    // Automatic environment detection
+    // This helps the app find the JSON files whether on localhost or published on Render
+    const isProduction = window.location.hostname !== "localhost" && 
+                         !window.location.hostname.includes("127.0.0.1");
     
     if (isProduction) {
-      // In production (Render)
+      // Path for production (Render)
       this.path = `./json/${this.category}.json`;
     } else {
-      // In development (localhost)
+      // Path for development (Localhost)
       this.path = `../json/${this.category}.json`;
     }
   }
