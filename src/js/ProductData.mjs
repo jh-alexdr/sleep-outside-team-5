@@ -9,6 +9,7 @@ function convertToJson(res) {
 export default class ProductData {
   constructor(category) {
     this.category = category;
+<<<<<<< ap--team2
 
     // Detect environment automatically
     const isProduction =
@@ -24,12 +25,19 @@ export default class ProductData {
     }
   }
 
+=======
+    this.path = `../json/${this.category}.json`;
+  }
+>>>>>>> main
   getData() {
     return fetch(this.path)
       .then(convertToJson)
       .then((data) => data);
   }
+<<<<<<< ap--team2
 
+=======
+>>>>>>> main
   async findProductById(id) {
     const products = await this.getData();
     return products.find((item) => item.Id === id);
