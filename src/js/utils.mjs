@@ -21,21 +21,31 @@ export function setClick(selector, callback) {
   });
   qs(selector).addEventListener("click", callback);
 }
+<<<<<<< ap--team2
+=======
 
 // Gets the value of a parameter from the URL
+>>>>>>> main
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
 }
 
+<<<<<<< ap--team2
+=======
 // Renders a list of items using a template function
+>>>>>>> main
 export function renderListWithTemplate(
   templateFn,
   parentElement,
   list,
   position = "afterbegin",
+<<<<<<< ap--team2
+  clear = false,
+=======
   clear = false
+>>>>>>> main
 ) {
   if (clear) {
     parentElement.innerHTML = "";
@@ -43,6 +53,8 @@ export function renderListWithTemplate(
   const htmlStrings = list.map(templateFn);
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
+<<<<<<< ap--team2
+=======
 
 // Update the cart counter displayed on the cart icon
 export function updateCartCounter() {
@@ -93,3 +105,4 @@ export function updateCartCounter() {
     if (counter) counter.remove();
   }
 }
+>>>>>>> main

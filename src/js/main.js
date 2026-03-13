@@ -1,3 +1,13 @@
+<<<<<<< ap--team2
+import ProductData from "./ProductData.mjs";
+import ProductList from "./productList.mjs";
+
+const dataSource = new ProductData("tents");
+const listElement = document.querySelector(".product-list");
+const productList = new ProductList("tents", dataSource, listElement);
+
+productList.init();
+=======
 import ProductData from './ProductData.mjs';
 import ProductList from './ProductList.mjs';
 import { updateCartCounter } from './utils.mjs';
@@ -24,3 +34,4 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+>>>>>>> main
