@@ -21,31 +21,21 @@ export function setClick(selector, callback) {
   });
   qs(selector).addEventListener("click", callback);
 }
-<<<<<<< ap--team2
-=======
 
 // Gets the value of a parameter from the URL
->>>>>>> main
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
 }
 
-<<<<<<< ap--team2
-=======
 // Renders a list of items using a template function
->>>>>>> main
 export function renderListWithTemplate(
   templateFn,
   parentElement,
   list,
   position = "afterbegin",
-<<<<<<< ap--team2
   clear = false,
-=======
-  clear = false
->>>>>>> main
 ) {
   if (clear) {
     parentElement.innerHTML = "";
@@ -53,29 +43,27 @@ export function renderListWithTemplate(
   const htmlStrings = list.map(templateFn);
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
-<<<<<<< ap--team2
-=======
 
 // Update the cart counter displayed on the cart icon
 export function updateCartCounter() {
   // Get current cart from localStorage
-  const cart = getLocalStorage('so-cart') || [];
-  
+  const cart = getLocalStorage("so-cart") || [];
+
   // Calculate total number of items (sum quantities or count products)
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  
+
   // Find the cart container element
-  const cartContainer = document.querySelector('.cart');
+  const cartContainer = document.querySelector(".cart");
   if (!cartContainer) return;
-  
+
   // Find or create the counter element
-  let counter = cartContainer.querySelector('.cart-counter');
-  
+  let counter = cartContainer.querySelector(".cart-counter");
+
   if (totalItems > 0) {
     if (!counter) {
       // Create counter if it doesn't exist
-      counter = document.createElement('span');
-      counter.className = 'cart-counter';
+      counter = document.createElement("span");
+      counter.className = "cart-counter";
       counter.style.cssText = `
         position: absolute;
         top: -8px;
@@ -90,11 +78,11 @@ export function updateCartCounter() {
         text-align: center;
         line-height: 1.2;
       `;
-      
+
       // Ensure cart link has relative position for absolute positioning
-      const cartLink = cartContainer.querySelector('a');
+      const cartLink = cartContainer.querySelector("a");
       if (cartLink) {
-        cartLink.style.position = 'relative';
+        cartLink.style.position = "relative";
         cartLink.appendChild(counter);
       }
     }
@@ -105,4 +93,3 @@ export function updateCartCounter() {
     if (counter) counter.remove();
   }
 }
->>>>>>> main
