@@ -32,19 +32,15 @@ export default class ProductDetails {
     const imageUrl = this.product.Images?.PrimaryLarge || "/images/placeholder.jpg";
     
     // Brand (API returns only ID)
-    const brandName = this.product.Brand || "Unknown";
+    const brandName = this.product.Brand?.Name || "Unknown";
     
     // Product name
     const productName = this.product.NameWithoutBrand || this.product.Name || "Product";
     
     // Price
-    const price = this.product.SuggestedRetailPrice || 0;
-    
+    const price = this.product.FinalPrice || this.product.SuggestedRetailPrice || 0;
     // Description (nested inside Colors)
-    let description = "No description available";
-    if (this.product.Colors) {
-      description = this.product.Colors.DescriptionHtmlSimple || description;
-    }
+    const description = this.product.DescriptionHtmlSimple || "No description available.";
 
     // Assign values to DOM elements
     const brandEl = document.querySelector("#productBrand");
