@@ -11,7 +11,7 @@ function productCardTemplate(product) {
   const productName = product.NameWithoutBrand || product.Name || "Product";
 
   // Get product price
-  const price = product.SuggestedRetailPrice || 0;
+  const price = product.FinalPrice || product.SuggestedRetailPrice || 0;
 
   return `<li class="product-card">
     <a href="/product_pages/index.html?product=${product.Id}">

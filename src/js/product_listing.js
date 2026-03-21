@@ -12,7 +12,8 @@ async function init() {
   // Update page title
   const titleElement = document.querySelector("#category-title");
   if (titleElement) {
-    titleElement.innerHTML = `Top Products: ${category} <span id="product-count"></span>`;
+    const formatted = category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, " ");
+    titleElement.innerHTML = `Top Products: ${formatted} <span id="product-count"></span>`;
   }
 
   // Initialize product list

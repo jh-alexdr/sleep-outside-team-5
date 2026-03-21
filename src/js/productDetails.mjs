@@ -9,7 +9,7 @@ export default class ProductDetails {
 
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
-    console.log('✅ Producto cargado:', this.product);
+    console.log("✅ Product loaded:", this.product);
     this.renderProductDetails();
     
     document.getElementById("addToCart")
@@ -29,22 +29,18 @@ export default class ProductDetails {
 
   renderProductDetails() {
     // ✅ Images is an object, not an array
-    const imageUrl = this.product.Images?.PrimaryLarge || '/images/placeholder.jpg';
+    const imageUrl = this.product.Images?.PrimaryLarge || "/images/placeholder.jpg";
     
     // Brand (API returns only ID)
-    const brandName = this.product.Brand || 'Unknown';
+    const brandName = this.product.Brand?.Name || "Unknown";
     
     // Product name
-    const productName = this.product.NameWithoutBrand || this.product.Name || 'Product';
+    const productName = this.product.NameWithoutBrand || this.product.Name || "Product";
     
     // Price
-    const price = this.product.SuggestedRetailPrice || 0;
-    
+    const price = this.product.FinalPrice || this.product.SuggestedRetailPrice || 0;
     // Description (nested inside Colors)
-    let description = 'No description available';
-    if (this.product.Colors) {
-      description = this.product.Colors.DescriptionHtmlSimple || description;
-    }
+    const description = this.product.DescriptionHtmlSimple || "No description available.";
 
     // Assign values to DOM elements
     const brandEl = document.querySelector("#productBrand");
