@@ -6,9 +6,9 @@ function convertToJson(res) {
   }
 }
 
-// Hardcoded URL (temporary, until .env works)
-const baseURL = "https://wdd330-backend.onrender.com/";
-console.log("🚀 baseURL (hardcoded):", baseURL);
+// Usando .env (recomendado)
+const baseURL = import.meta.env.VITE_SERVER_URL;
+console.log("🚀 baseURL:", baseURL);
 
 export default class ProductData {
   constructor() {}
@@ -33,20 +33,17 @@ export default class ProductData {
   }
 
   async findProductById(id) {
-    console.log("🔍 Searching product with ID:", id);
+    console.log("🔍 Searching product by ID:", id);
     const url = `${baseURL}product/${id}`;
     console.log("🌐 Generated URL:", url);
 
     try {
       const response = await fetch(url);
       console.log("📡 Status:", response.status);
-      console.log("📡 Content-Type:", response.headers.get("content-type"));
 
-      // ✅ Read directly as JSON (cleaner)
       const data = await convertToJson(response);
       console.log("✅ JSON parsed successfully:", data);
 
-      // ✅ Return data.Result (the actual product)
       return data.Result;
     } catch (error) {
       console.error("❌ Error in findProductById:", error.message);
