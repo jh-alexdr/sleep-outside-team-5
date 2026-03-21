@@ -8,7 +8,7 @@ function convertToJson(res) {
 
 
 // Hardcoded URL (temporary, until .env works)
-const baseURL = import.meta.env.VITE_SERVER_URL;
+const baseURL = "https://wdd330-backend.onrender.com/";
 console.log("🚀 baseURL (hardcoded):", baseURL);
 
 
