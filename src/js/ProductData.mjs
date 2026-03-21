@@ -6,50 +6,50 @@ function convertToJson(res) {
   }
 }
 
-// Hardcoded URL (temporal, until .env works)
+// Hardcoded URL (temporary, until .env works)
 const baseURL = "https://wdd330-backend.onrender.com/";
-console.log("🚀 baseURL (hardcodeada):", baseURL);
+console.log("🚀 baseURL (hardcoded):", baseURL);
 
 export default class ProductData {
   constructor() {}
 
   async getData(category) {
-    console.log("📦 getData llamada con categoría:", category);
+    console.log("📦 getData called with category:", category);
     const url = `${baseURL}products/search/${category}`;
-    console.log("🌐 URL generada:", url);
+    console.log("🌐 Generated URL:", url);
 
     try {
       const response = await fetch(url);
       console.log("📡 Status:", response.status);
 
       const data = await convertToJson(response);
-      console.log("📦 Data recibida:", data);
+      console.log("📦 Data received:", data);
 
       return data.Result;
     } catch (error) {
-      console.error("❌ Error en getData:", error.message);
+      console.error("❌ Error in getData:", error.message);
       throw error;
     }
   }
 
   async findProductById(id) {
-    console.log("🔍 Buscando producto con ID:", id);
+    console.log("🔍 Searching product with ID:", id);
     const url = `${baseURL}product/${id}`;
-    console.log("🌐 URL generada:", url);
+    console.log("🌐 Generated URL:", url);
 
     try {
       const response = await fetch(url);
       console.log("📡 Status:", response.status);
       console.log("📡 Content-Type:", response.headers.get("content-type"));
 
-      // ✅ Leer directamente como JSON (más limpio)
+      // ✅ Read directly as JSON (cleaner)
       const data = await convertToJson(response);
-      console.log("✅ JSON parseado correctamente:", data);
+      console.log("✅ JSON parsed successfully:", data);
 
-      // ✅ Devolvemos data.Result (el producto real)
+      // ✅ Return data.Result (the actual product)
       return data.Result;
     } catch (error) {
-      console.error("❌ Error en findProductById:", error.message);
+      console.error("❌ Error in findProductById:", error.message);
       throw error;
     }
   }
