@@ -2,9 +2,10 @@ import ProductData from "./ProductData.mjs";
 import ProductList from "./productList.mjs";
 import { updateCartCounter } from "./utils.mjs";
 
-function init() {
-  const dataSource = new ProductData("tents");
-  const listElement = document.querySelector(".product-list");
+async function init() {
+const dataSource = new ProductData();
+const products = await dataSource.getData("tents");
+
 
   if (!listElement) {
     console.error("It´s not found .product-list in DOM");
