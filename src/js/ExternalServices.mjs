@@ -7,10 +7,10 @@ function convertToJson(res) {
 }
 
 // Hardcoded URL (temporal, until .env works)
-const baseURL = import.meta.env.VITE_SERVER_URL;
-console.log("🚀 baseURL (hardcodeada):", baseURL);
+const baseURL = "https://wdd330-backend.onrender.com/";
+console.log("🚀 baseURL:", baseURL);
 
-export default class ProductData {
+export default class ExternalServices {
   constructor() {}
 
   async getData(category) {
@@ -42,15 +42,28 @@ export default class ProductData {
       console.log("📡 Status:", response.status);
       console.log("📡 Content-Type:", response.headers.get("content-type"));
 
-      // ✅ Leer directamente como JSON (más limpio)
       const data = await convertToJson(response);
       console.log("✅ JSON parseado correctamente:", data);
 
-      // ✅ Devolvemos data.Result (el producto real)
       return data.Result;
     } catch (error) {
       console.error("❌ Error in findProductById:", error.message);
       throw error;
     }
+  }
+
+  async checkout(payload) {
+    const url = `https://wdd330-backend.onrender.com/checkout`;
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+
+    const response = await fetch(url, options);
+    const data = await convertToJson(response);
+    return data;
   }
 }
