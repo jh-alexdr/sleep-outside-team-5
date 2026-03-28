@@ -32,13 +32,13 @@ export default class ExternalServices {
 
   async checkout(orderData) {
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(orderData)
+      body: JSON.stringify(orderData),
     };
-    
+
     const response = await fetch(`${baseURL}checkout`, options);
     return await convertToJson(response);
   }

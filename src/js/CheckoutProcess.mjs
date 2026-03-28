@@ -15,7 +15,6 @@ function formDataToJSON(formElement) {
   formData.forEach((value, key) => {
     convertedJSON[key] = value;
   });
-
   return convertedJSON;
 }
 
@@ -43,13 +42,13 @@ export default class CheckoutProcess {
    * @param {string} outputSelector - CSS selector where totals are displayed
    */
   constructor(key, outputSelector) {
-    this.key = key;                    // localStorage key ("so-cart")
+    this.key = key; // localStorage key ("so-cart")
     this.outputSelector = outputSelector; // Selector to display totals
-    this.list = [];                   // List of cart items
-    this.itemTotal = 0;              // Subtotal of items
-    this.shipping = 0;               // Shipping cost
-    this.tax = 0;                    // Tax amount
-    this.orderTotal = 0;             // Final order total
+    this.list = []; // List of cart items
+    this.itemTotal = 0; // Subtotal of items
+    this.shipping = 0; // Shipping cost
+    this.tax = 0; // Tax amount
+    this.orderTotal = 0; // Final order total
   }
 
   /**
@@ -70,7 +69,10 @@ export default class CheckoutProcess {
       `${this.outputSelector} #subtotal`,
     );
     // Use FinalPrice if available, otherwise SuggestedRetailPrice
-    this.itemTotal = this.list.reduce((sum, item) => sum + (item.FinalPrice || item.SuggestedRetailPrice || 0), 0);
+    this.itemTotal = this.list.reduce(
+      (sum, item) => sum + (item.FinalPrice || item.SuggestedRetailPrice || 0),
+      0,
+    );
     if (subtotalElement) {
       subtotalElement.innerText = `$${this.itemTotal.toFixed(2)}`;
     }
@@ -83,14 +85,14 @@ export default class CheckoutProcess {
   calculateOrderTotal(zipCode) {
     // Tax: 6% of subtotal
     this.tax = this.itemTotal * 0.06;
-    
+
     // Shipping: $10 for first item + $2 for each additional item
     const itemCount = this.list.length;
     this.shipping = itemCount > 0 ? 10 + (itemCount - 1) * 2 : 0;
-    
+
     // Order total
     this.orderTotal = this.itemTotal + this.tax + this.shipping;
-    
+
     this.displayOrderTotals();
   }
 
@@ -98,16 +100,24 @@ export default class CheckoutProcess {
    * Displays all order totals in the UI
    */
   displayOrderTotals() {
-    const subtotalElement = document.querySelector(`${this.outputSelector} #subtotal`);
+    const subtotalElement = document.querySelector(
+      `${this.outputSelector} #subtotal`,
+    );
     const taxElement = document.querySelector(`${this.outputSelector} #tax`);
-    const shippingElement = document.querySelector(`${this.outputSelector} #shipping`);
-    const totalElement = document.querySelector(`${this.outputSelector} #order-total`) || 
-                          document.querySelector(`${this.outputSelector} #orderTotal`);
-    
-    if (subtotalElement) subtotalElement.textContent = `$${this.itemTotal.toFixed(2)}`;
+    const shippingElement = document.querySelector(
+      `${this.outputSelector} #shipping`,
+    );
+    const totalElement =
+      document.querySelector(`${this.outputSelector} #order-total`) ||
+      document.querySelector(`${this.outputSelector} #orderTotal`);
+
+    if (subtotalElement)
+      subtotalElement.textContent = `$${this.itemTotal.toFixed(2)}`;
     if (taxElement) taxElement.textContent = `$${this.tax.toFixed(2)}`;
-    if (shippingElement) shippingElement.textContent = `$${this.shipping.toFixed(2)}`;
-    if (totalElement) totalElement.textContent = `$${this.orderTotal.toFixed(2)}`;
+    if (shippingElement)
+      shippingElement.textContent = `$${this.shipping.toFixed(2)}`;
+    if (totalElement)
+      totalElement.textContent = `$${this.orderTotal.toFixed(2)}`;
   }
 
   /**
@@ -118,7 +128,7 @@ export default class CheckoutProcess {
   async checkout(form) {
     // Convert form data to JSON
     const json = formDataToJSON(form);
-    
+
     // Build the order object
     json.orderDate = new Date().toISOString();
     json.orderTotal = this.orderTotal;
@@ -132,14 +142,10 @@ export default class CheckoutProcess {
     existingAlerts.forEach((alert) => alert.remove());
 
     try {
-      const res = await services.checkout(json);
-      console.log("Respuesta del servidor:", res);
-
+      await services.checkout(json);
       localStorage.removeItem(this.key);
       location.assign("success.html");
     } catch (err) {
-      console.log("Error al procesar el pago:", err);
-
       for (let key in err.message) {
         alertMessage(err.message[key]);
       }

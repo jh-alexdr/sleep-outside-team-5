@@ -25,7 +25,7 @@ function renderCartContents() {
     if (cartFooter) cartFooter.style.display = "none";
     return;
   }
-  
+
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   productList.innerHTML = htmlItems.join("");
   

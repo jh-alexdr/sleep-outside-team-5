@@ -15,11 +15,14 @@ export function setLocalStorage(key, data) {
 
 // set a listener for both touchend and click
 export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
-    event.preventDefault();
-    callback();
-  });
-  qs(selector).addEventListener("click", callback);
+  const element = qs(selector);
+  if (element) {
+    element.addEventListener("touchend", (event) => {
+      event.preventDefault();
+      callback();
+    });
+    element.addEventListener("click", callback);
+  }
 }
 
 // Gets the value of a parameter from the URL
@@ -135,6 +138,7 @@ export function alertMessage(message, scroll = true) {
 
   alert.addEventListener("click", function (e) {
     if (e.target.tagName === "SPAN") {
+      const main = document.querySelector("main");
       main.removeChild(this);
     }
   });
@@ -143,4 +147,17 @@ export function alertMessage(message, scroll = true) {
   main.prepend(alert);
 
   if (scroll) window.scrollTo(0, 0);
+}
+
+export function removeFromCart(productId) {
+  let cart = getLocalStorage("so-cart") || [];
+  // Use findIndex and splice to remove only ONE instance of the product
+  const index = cart.findIndex((item) => item.Id === productId);
+
+  if (index !== -1) {
+    cart.splice(index, 1);
+  }
+
+  setLocalStorage("so-cart", cart);
+  updateCartCounter();
 }
