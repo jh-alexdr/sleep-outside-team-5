@@ -1,16 +1,9 @@
 import { renderListWithTemplate } from "./utils.mjs";
 
 function productCardTemplate(product) {
-  // ✅ Images is an object, not an array
   const imageUrl = product.Images?.PrimaryMedium || "/images/placeholder.jpg";
-
-  // Get brand name (API returns only ID, use ID for now)
   const brandName = product.Brand.Name || product.Brand || "Brand";
-
-  // Get product name
   const productName = product.NameWithoutBrand || product.Name || "Product";
-
-  // Get product price
   const price = product.SuggestedRetailPrice || 0;
 
   return `<li class="product-card">
@@ -31,30 +24,49 @@ export default class ProductList {
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
+    this.products = []; // ✅ guardamos los productos para re-ordenar
   }
 
   async init() {
-    // Get data from API
     const list = await this.dataSource.getData(this.category);
 
-    // 📋 DIAGNOSTIC LOGS
-    console.log("🎯 Category:", this.category);
-    console.log("🎯 Full list:", list);
+    this.products = list; // ✅ guardamos referencia
 
-    if (list && list.length > 0) {
-      console.log("🎯 First product:", list[0]);
-      console.log("🎯 First product properties:", Object.keys(list[0]));
-      console.log("🎯 First product Images:", list[0].Images);
-      console.log("🎯 PrimaryMedium:", list[0].Images?.PrimaryMedium);
-    } else {
-      console.warn("⚠️ No products received from API");
-    }
+    this.renderList(this.products);
 
-    this.renderList(list);
+    // ✅ Contador de productos
     const countElement = document.querySelector("#product-count");
     if (countElement && list) {
       countElement.textContent = `(${list.length} items found)`;
     }
+
+    // ✅ Conectar el selector de ordenamiento
+    const sortSelector = document.querySelector("#sort-options");
+    if (sortSelector) {
+      sortSelector.addEventListener("change", (e) => {
+        const sorted = this.sortList(e.target.value);
+        this.renderList(sorted);
+      });
+    }
+  }
+
+  // ✅ Nuevo método de ordenamiento
+  sortList(criteria) {
+    const sorted = [...this.products]; // copia para no mutar el original
+
+    if (criteria === "name") {
+      sorted.sort((a, b) => {
+        const nameA = (a.NameWithoutBrand || a.Name || "").toLowerCase();
+        const nameB = (b.NameWithoutBrand || b.Name || "").toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+    } else if (criteria === "price-asc") {
+      sorted.sort((a, b) => (a.SuggestedRetailPrice || 0) - (b.SuggestedRetailPrice || 0));
+    } else if (criteria === "price-desc") {
+      sorted.sort((a, b) => (b.SuggestedRetailPrice || 0) - (a.SuggestedRetailPrice || 0));
+    }
+
+    return sorted;
   }
 
   renderList(list) {
