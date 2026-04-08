@@ -1,4 +1,4 @@
-import { getLocalStorage, alertMessage } from "./utils.mjs";
+import { getLocalStorage, alertMessage, removeAllAlerts } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
@@ -138,8 +138,7 @@ export default class CheckoutProcess {
 
     console.log("Sending order to server...", json);
 
-    const existingAlerts = document.querySelectorAll(".alert");
-    existingAlerts.forEach((alert) => alert.remove());
+    removeAllAlerts();
 
     try {
       await services.checkout(json);
